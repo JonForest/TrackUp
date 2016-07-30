@@ -18,6 +18,10 @@ let issuePoints = []
 const dataSet = R.clone(sampledata)
 
 const mapHtml = `
+<nav class="header">
+    <img class="header-icon" src="images/touch/picker_128.png" height="40px" width="40px"></img>
+    <h1 class="page-title">TrackUP</h1>
+</nav>
 <div id="map"></div>
 <div class="container">
 <div class="row">
@@ -34,20 +38,23 @@ const mapHtml = `
 `
 
 const textHtml = `
-"<div class='row'>
+<nav class="header">
+    <img class="header-icon" src="images/touch/picker_128.png" height="40px" width="40px"></img>
+    <h1 class="page-title">TrackUP</h1>
+</nav>
+<div class='row'>
     <div class='col-lg-12'>
-        <h1>What would you like to say?</h1>
-        <textarea style='width:100%; height:300px;'></textarea>
+        <h1>Describe the problem</h1>
+        <textarea style="width:100%; height:300px;" id="notes"></textarea>
     </div>
     <div class='col-lg-12'>
-        <div class='btn btn-block btn-success'>Send</div>
+        <div class='btn btn-block btn-success' id="send">Send</div>
     </div>
- </div>";
-    
+ </div>
 `
 
 function initMap () {
-  $('#map-container').html(mapHtml)
+  $('body').html(mapHtml)
 
   if (navigator.geolocation) {
     getCurrentPosition().then(position => {
@@ -79,7 +86,7 @@ function initMap () {
     })
     map.data.loadGeoJson('Council_Walkways_and_MTB_Trails.geojson')
   }
-  $(document).on('change', '#imageUpload', readFile)
+  $(document).on('change', '#imageUpload', readPhoto)
   $(document).on('click', '#send', tellTheWorld)
 }
 
@@ -120,11 +127,11 @@ function addUserMarker (position) {
   })
 }
 
-function readFile () {
+function readPhoto () {
   if (this.files && this.files[0]) {
     var fileReader = new FileReader()
     fileReader.onload = function (e) {
-      $('#map-container').html(textHtml)
+      $('body').html(textHtml)
       dataSet[0].Photo = e.target.result
     }
     fileReader.readAsDataURL(this.files[0])
@@ -140,6 +147,7 @@ function captureLocation () {
 }
 
 function tellTheWorld () {
+  dataSet[0].Notes = $('#notes').text()
   if (!dataSet[0].Latitude || !dataSet[0].Longitude) return alert('Upload a file')
 
   $.ajax({
@@ -156,25 +164,13 @@ function tellTheWorld () {
   })
 }
 
-function listen() {
-  $.ajax({
-    url: 'https://trackup.azurewebsites.net/api/Get',
-    method: 'GET',
-    headers: {
-      AuthToken: 'H4O0v4oHE4MB19hoA2Tsrgzb9SkYWk646MDN69W54y62DE4L15h183V4xyEvH4O0v4oHE4MB19'
-    }
-  }).done(data => {
-    setMapOnAll(null)
-    issuePoints = []
 
-  })
-
-}
-
-function setMapOnAll(map) {
-  for (var i = 0; i < issuePoints.length; i++) {
-    issuePoints[i].issuePoints(map);
-  }
-}
 
 window.initMap = initMap
+
+/**
+ * TODO:
+ * 1. Snap the user, or the coordinates, to the nearest trail
+ * 2.
+ */
+

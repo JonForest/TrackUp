@@ -1,6 +1,7 @@
 body {
     margin: 0;
     background-color: #fafafa;
+    min-height: 100%
 }
 
 * {
@@ -38,10 +39,6 @@ body {
     display: inline;
 }
 
-.map-container {
-    height:800px;
-    width:800px;
-}
 
 #map {
     height: 80%;
