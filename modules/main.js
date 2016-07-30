@@ -21,12 +21,20 @@ const mapHtml = `
 `
 
 const textHtml = `
-<textarea id="notes"></textarea>
-<button id="send">Send</button>
+"<div class='row'>
+    <div class='col-lg-12'>
+        <h1>What would you like to say?</h1>
+        <textarea style='width:100%; height:300px;'></textarea>
+    </div>
+    <div class='col-lg-12'>
+        <div class='btn btn-block btn-success'>Send</div>
+    </div>
+ </div>";
+    
 `
 
 function initMap () {
-  $('body').html(mapHtml)
+  $('#map-container').html(mapHtml)
 
   if (navigator.geolocation) {
     getCurrentPosition().then(position => {
@@ -112,7 +120,7 @@ function readFile () {
     var fileReader = new FileReader()
     fileReader.onload = function (e) {
       captureLocation()
-      $('body').html(textHtml)
+      $('#map-container').html(textHtml)
       // dataSet.Photo = e.target.result
       // EL('img').src       = e.target.result
       // EL('b64').innerHTML = e.target.result
