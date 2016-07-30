@@ -23,9 +23,9 @@ importScripts('/cache-polyfill.js');
 
 self.addEventListener('install', function(e) {
   e.waitUntil(
-    caches.open('airhorner').then(function(cache) {
+    caches.open('trackup-cache').then(function(cache) {
       return cache.addAll([
-        '/sounds/airhorn.mp3'
+        '/'
       ]).then(function() {
         return self.skipWaiting();
       });
