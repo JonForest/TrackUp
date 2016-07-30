@@ -26,7 +26,7 @@ const textHtml = `
 `
 
 function initMap () {
-  $('body').html(mapHtml)
+  $('#map-container').html(mapHtml)
 
   if (navigator.geolocation) {
     getCurrentPosition().then(position => {
@@ -112,7 +112,7 @@ function readFile () {
     var fileReader = new FileReader()
     fileReader.onload = function (e) {
       captureLocation()
-      $('body').html(textHtml)
+      $('#map-container').html(textHtml)
       // dataSet.Photo = e.target.result
       // EL('img').src       = e.target.result
       // EL('b64').innerHTML = e.target.result
