@@ -23,17 +23,19 @@ const mapHtml = `
     <h1 class="page-title">TrackUP</h1>
 </nav>
 <div id="map"></div>
-<div class="container">
-<div class="row">
-  <div class="col-xs-6">
-    <span class="fileUpload">
-        <button class="btn btn-success" style="width: 100%">Report Issue</button>
-        <input type="file" multiple="false" accept="image/*" id="imageUpload" class="upload">
-    </span>
-  </div><div class="col-xs-6">
-    <button class="btn btn-danger" style="width: 100%">Emergency</button>
+
+<div class="footer">
+  <div class="row">
+    <div class="col-xs-6">
+      <span class="fileUpload">
+          <button class="btn btn-block btn-default"><span class="glyphicon glyphicon-bullhorn"></span> Report Issue</button>
+          <input type="file" multiple="false" accept="image/*" id="imageUpload" class="upload">
+      </span>
+    </div>
+    <div class="col-xs-6">
+      <button class="btn btn-block btn-default"><span class="glyphicon glyphicon-warning-sign"></span> Emergency</button>
+    </div>
   </div>
-</div>
 </div>
 `
 
