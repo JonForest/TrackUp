@@ -55,17 +55,17 @@
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
 <script src="./js/scripts.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYvIW5sh0Reb3XsM5dL316fZnt7s8v3kw&callback=initMap" async defer></script>
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js', {scope: '/'})
-                .then(function (registration) {
-                    console.log("Service Worker Registered");
-                });
+// <script>
+//     if ('serviceWorker' in navigator) {
+//         navigator.serviceWorker.register('/sw.js', {scope: '/'})
+//                 .then(function (registration) {
+//                     console.log("Service Worker Registered");
+//                 });
 
-        navigator.serviceWorker.ready.then(function (registration) {
-            console.log("Service Worker Ready");
-        });
-    }
-</script>
+//         navigator.serviceWorker.ready.then(function (registration) {
+//             console.log("Service Worker Ready");
+//         });
+//     }
+// </script>
 </body>
 </html>
