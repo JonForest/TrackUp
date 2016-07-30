@@ -10,14 +10,27 @@ import R from 'ramda'
 var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 var labelIndex = 0
 
-var map
-let user, currentPosition
+let map
+let user
+let currentPosition
+let issuePoints = []
 
 const dataSet = R.clone(sampledata)
 
 const mapHtml = `
 <div id="map"></div>
-<input type="file" accept="image/*" id="imageUpload">
+<div class="container">
+<div class="row">
+  <div class="col-xs-6">
+    <span class="fileUpload">
+        <button class="btn btn-success" style="width: 100%">Report Issue</button>
+        <input type="file" multiple="false" accept="image/*" id="imageUpload" class="upload">
+    </span>
+  </div><div class="col-xs-6">
+    <button class="btn btn-danger" style="width: 100%">Emergency</button>
+  </div>
+</div>
+</div>
 `
 
 const textHtml = `
@@ -44,8 +57,18 @@ function initMap () {
       })
       addUserMarker(position)
       map.data.loadGeoJson('Council_Walkways_and_MTB_Trails.geojson')
-      google.maps.event.addListener(map, 'click', function (event) {
-        tellTheWorld(event.latLng)
+      map.data.setStyle({
+        strokeColor: 'black',
+        strokeWeight: 4,
+        strokeOpacity: 0.4
+      })
+      google.maps.event.addListener(map, 'maptypeid_changed', function (event) {
+        var strokeColour = map.data.style.strokeColor === 'black' ? 'yellow' : 'black'
+        map.data.setStyle({
+          strokeColor: strokeColour,
+          strokeWeight: 4,
+          strokeOpacity: 0.4
+        })
       })
       setInterval(updateLocation, 1000)
     })
@@ -56,13 +79,8 @@ function initMap () {
     })
     map.data.loadGeoJson('Council_Walkways_and_MTB_Trails.geojson')
   }
-
-  google.maps.event.addListener(map, 'click', function (event) {
-    tellTheWorld(event, event.latLng)
-    // addMarker(event.latLng, map)
-  })
-  // $('#sendData').on('click', tellTheWorld)
-  $('#imageUpload').on('change', readFile)
+  $(document).on('change', '#imageUpload', readFile)
+  $(document).on('click', '#send', tellTheWorld)
 }
 
 function getCurrentPosition (cb) {
@@ -70,8 +88,8 @@ function getCurrentPosition (cb) {
     navigator.geolocation.getCurrentPosition(position => {
       const {latitude, longitude} = position.coords
       console.log(`Latitude: ${latitude},  Longitude: ${longitude}`)
-      dataSet.Latitude = latitude
-      dataSet.Longitude = longitude
+      dataSet[0].Latitude = latitude
+      dataSet[0].Longitude = longitude
       resolve({lat: latitude, lng: longitude})
     }, reject)
   })
@@ -86,22 +104,10 @@ function updateLocation () {
   })
 }
 
-// // Adds a marker to the map.
-// function addMarker (location, map) {
-//   // Add the marker at the clicked location, and add the next-available label
-//   // from the array of alphabetical characters.
-//   var marker = new google.maps.Marker({
-//     position: location,
-//     label: labels[labelIndex++ % labels.length],
-//     map: map
-//   })
-//
-//   dataSet.Latitude = location.lat
-//   dataSet.Longitude = location.lng
-// }
-
 function addUserMarker (position) {
   currentPosition = R.clone(position)
+  dataSet[0].Latitude = position.lat
+  dataSet[0].Longitude = position.lng
   if (user) user.setMap(null)
   user = new google.maps.Marker({
     position: position,
@@ -112,18 +118,14 @@ function addUserMarker (position) {
       scale: 10
     }
   })
-  debugger
 }
 
 function readFile () {
   if (this.files && this.files[0]) {
     var fileReader = new FileReader()
     fileReader.onload = function (e) {
-      captureLocation()
       $('#map-container').html(textHtml)
-      // dataSet.Photo = e.target.result
-      // EL('img').src       = e.target.result
-      // EL('b64').innerHTML = e.target.result
+      dataSet[0].Photo = e.target.result
     }
     fileReader.readAsDataURL(this.files[0])
   }
@@ -137,31 +139,42 @@ function captureLocation () {
   }
 }
 
-function tellTheWorld (position) {
-  let lat, lng
-  if (position.lat) {
-    lat = position.lat()
-    lng = position.lng()
-  } else {
-    debugger
-  }
-  console.log(`Latitude: ${lat},  Longitude: ${lng}`)
-  dataSet[0].Latitude = lat
-  dataSet[0].Longitude = lng
+function tellTheWorld () {
   if (!dataSet[0].Latitude || !dataSet[0].Longitude) return alert('Upload a file')
-  // sampledata.image = fileData
+
   $.ajax({
     url: 'https://trackup.azurewebsites.net/api/Post',
     method: 'POST',
     data: JSON.stringify(dataSet),
     headers: {
-      Authtoken: 'H4O0v4oHE4MB19hoA2Tsrgzb9SkYWk646MDN69W54y62DE4L15h183V4xyEvH4O0v4oHE4MB19'
+      AuthToken: 'H4O0v4oHE4MB19hoA2Tsrgzb9SkYWk646MDN69W54y62DE4L15h183V4xyEvH4O0v4oHE4MB19'
     }
   }).done(data => {
     alert(data)
   }).fail(jqXHR => {
     console.log(jqXHR)
   })
+}
+
+function listen() {
+  $.ajax({
+    url: 'https://trackup.azurewebsites.net/api/Get',
+    method: 'GET',
+    headers: {
+      AuthToken: 'H4O0v4oHE4MB19hoA2Tsrgzb9SkYWk646MDN69W54y62DE4L15h183V4xyEvH4O0v4oHE4MB19'
+    }
+  }).done(data => {
+    setMapOnAll(null)
+    issuePoints = []
+
+  })
+
+}
+
+function setMapOnAll(map) {
+  for (var i = 0; i < issuePoints.length; i++) {
+    issuePoints[i].issuePoints(map);
+  }
 }
 
 window.initMap = initMap
