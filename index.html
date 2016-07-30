@@ -40,18 +40,19 @@
 <body>
 
 <nav class="header">
-    <img class="header-icon" src="/images/touch/picker_128.png" height="40px" width="40px"></img>
+    <img class="header-icon" src="images/touch/picker_128.png" height="40px" width="40px"></img>
     <h1 class="page-title">TrackUP</h1>
 </nav>
 
-<div id="map-container"></div>
+<div id="map-container">
+    <div id="map"></div>
+</div>
 
 <div id="installer">
     <button class="button">Install</button>
     <span class="tooltip"></span>
 </div>
 
-<script src=/scripts/main.min.js></script>
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
 <script src="./js/scripts.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYvIW5sh0Reb3XsM5dL316fZnt7s8v3kw&callback=initMap" async defer></script>
