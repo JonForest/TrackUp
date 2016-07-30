@@ -10,8 +10,10 @@ import R from 'ramda'
 var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 var labelIndex = 0
 
-var map
-let user, currentPosition
+let map
+let user
+let currentPosition
+let issuePoints = []
 
 const dataSet = R.clone(sampledata)
 
@@ -152,6 +154,27 @@ function tellTheWorld () {
   }).fail(jqXHR => {
     console.log(jqXHR)
   })
+}
+
+function listen() {
+  $.ajax({
+    url: 'https://trackup.azurewebsites.net/api/Get',
+    method: 'GET',
+    headers: {
+      AuthToken: 'H4O0v4oHE4MB19hoA2Tsrgzb9SkYWk646MDN69W54y62DE4L15h183V4xyEvH4O0v4oHE4MB19'
+    }
+  }).done(data => {
+    setMapOnAll(null)
+    issuePoints = []
+
+  })
+
+}
+
+function setMapOnAll(map) {
+  for (var i = 0; i < issuePoints.length; i++) {
+    issuePoints[i].issuePoints(map);
+  }
 }
 
 window.initMap = initMap
