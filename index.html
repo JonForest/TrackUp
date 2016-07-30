@@ -1,37 +1,71 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang=en-NZ>
 <head>
-  <title>Simple Map</title>
-  <meta name="viewport" content="initial-scale=1.0">
-  <meta charset="utf-8">
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-    #map {
-      height: 80%;
-    }
-  </style>
+    <meta charset=utf-8>
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=description content="TrackUP, a local mapping application for notifying events.">
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <title>TrackUP</title>
+    <link rel=manifest href=manifest.json>
+    <meta name=mobile-web-app-capable content=yes>
+    <meta name=application-name content="TrackUP">
+    <link rel=icon sizes=192x192 href=/images/touch/Airhorner_192.png>
+    <meta name=apple-mobile-web-app-capable content=yes>
+    <meta name=apple-mobile-web-app-status-bar-style content=black>
+    <meta name=apple-mobile-web-app-title content="Air Horner">
+    <link rel=apple-touch-icon href=/images/touch/Airhorner_192.png>
+    <meta name=msapplication-TileImage content=/images/touch/Airhorner_144.png>
+    <meta name=msapplication-TileColor content=#2196F3>
+    <meta name=theme-color content=#2196F3>
+
+    <meta property=og:title content="Air Horn">
+    <meta property=og:type content=website>
+    <meta property=og:image content=https://airhorner.com/images/touch/Airhorner_192.png>
+    <meta property=og:url content="https://airhorner.com/">
+    <meta property=og:description
+          content="The best and easiest Air Horn web app there is. No install just use it right away in your browser!">
+
+    <meta name=twitter:card content=summary>
+    <meta name=twitter:url content="https://airhorner.com/">
+    <meta name=twitter:title content="Air Horn">
+    <meta name=twitter:description
+          content="The best and easiest Air Horn web app there is. No install just use it right away in your browser!">
+    <meta name=twitter:image content=https://airhorner.com/images/touch/Airhorner_192.png>
+    <meta name=twitter:creator content=@paul_kinlan>
+    <link rel=stylesheet href=styles/main.css>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
+
 <body>
-  <div id="map"></div>
-  <input type="file" accept="image/*" id="imageUpload">
-  <!--<span class="btn fileinput-button">-->
-      <!--<button class="btn">Select</button>-->
-      <!--<input type="file" multiple="false" accept="image/*" id="imageUpload">-->
-  <!--</span>-->
 
-</body>
+<nav class="header">
+    <img class="header-icon" src="/images/touch/picker_128.png" height="40px" width="40px"></img>
+    <h1 class="page-title">TrackUP</h1>
+</nav>
 
-<script   src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
-<script>
+<div id="map-container"></div>
 
+<div id="installer">
+    <button class="button">Install</button>
+    <span class="tooltip"></span>
+</div>
 
-</script>
+<script src=/scripts/main.min.js></script>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
 <script src="./js/scripts.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYvIW5sh0Reb3XsM5dL316fZnt7s8v3kw&callback=initMap"
-        async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYvIW5sh0Reb3XsM5dL316fZnt7s8v3kw&callback=initMap" async defer></script>
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js', {scope: '/'})
+                .then(function (registration) {
+                    console.log("Service Worker Registered");
+                });
+
+        navigator.serviceWorker.ready.then(function (registration) {
+            console.log("Service Worker Ready");
+        });
+    }
+</script>
 </body>
 </html>
