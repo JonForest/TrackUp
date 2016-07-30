@@ -5,6 +5,7 @@ import $ from 'jquery'
 import sampledata from './sampledata'
 import toDataUrl from './base64Image'
 import R from 'ramda'
+// import issueMarkers from './issue_markers'
 
 
 var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -23,26 +24,24 @@ const mapHtml = `
     <h1 class="page-title">TrackUP</h1>
 </nav>
 <div id="map"></div>
-<div class="container">
-<div class="row">
-  <div class="col-xs-6">
-    <span class="fileUpload">
-        <button class="btn btn-success" style="width: 100%">Report Issue</button>
-        <input type="file" multiple="false" accept="image/*" id="imageUpload" class="upload">
-    </span>
-  </div><div class="col-xs-6">
-    <button class="btn btn-danger" style="width: 100%">Emergency</button>
+
+<div class="footer" id="buttons">
+  <div class="row">
+    <div class="col-xs-6">
+      <span class="fileUpload">
+          <button class="btn btn-block btn-default"><span class="glyphicon glyphicon-bullhorn"></span> Report Issue</button>
+          <input type="file" multiple="false" accept="image/*" id="imageUpload" class="upload">
+      </span>
+    </div>
+    <div class="col-xs-6">
+      <button class="btn btn-block btn-default"><span class="glyphicon glyphicon-warning-sign"></span> Emergency</button>
+    </div>
   </div>
-</div>
 </div>
 `
 
 const textHtml = `
-<nav class="header">
-    <img class="header-icon" src="images/touch/picker_128.png" height="40px" width="40px"></img>
-    <h1 class="page-title">TrackUP</h1>
-</nav>
-<div class='row'>
+<div class='row' id="textcapture">
     <div class='col-lg-12'>
         <h1>Describe the problem</h1>
         <textarea style="width:100%; height:300px;" id="notes"></textarea>
@@ -51,6 +50,14 @@ const textHtml = `
         <div class='btn btn-block btn-success' id="send">Send</div>
     </div>
  </div>
+`
+
+const thankyouHtml =
+`
+<div id="thankyou">
+<h1>Thank you!</h1>
+<div class='btn btn-block btn-success' id="back">Back to Map</div>
+</div>
 `
 
 function initMap () {
@@ -78,6 +85,7 @@ function initMap () {
         })
       })
       setInterval(updateLocation, 1000)
+      // issueMarkers(map)
     })
   } else {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -88,6 +96,11 @@ function initMap () {
   }
   $(document).on('change', '#imageUpload', readPhoto)
   $(document).on('click', '#send', tellTheWorld)
+  $(document).on('click', '#back', () => {
+    $('#thankyou').addClass('hidden')
+    $('#map').removeClass('hidden')
+    $('#buttons').removeClass('hidden')
+  })
 }
 
 function getCurrentPosition (cb) {
@@ -131,7 +144,9 @@ function readPhoto () {
   if (this.files && this.files[0]) {
     var fileReader = new FileReader()
     fileReader.onload = function (e) {
-      $('body').html(textHtml)
+      $('#map').addClass('hidden')
+      $('#buttons').addClass('hidden')
+      $('body').append(textHtml)
       dataSet[0].Photo = e.target.result
     }
     fileReader.readAsDataURL(this.files[0])
@@ -158,9 +173,12 @@ function tellTheWorld () {
       AuthToken: 'H4O0v4oHE4MB19hoA2Tsrgzb9SkYWk646MDN69W54y62DE4L15h183V4xyEvH4O0v4oHE4MB19'
     }
   }).done(data => {
+    $('#textcapture').addClass('hidden')
+    $('body').append(thankyouHtml)
     alert(data)
   }).fail(jqXHR => {
-    console.log(jqXHR)
+    $('#textcapture').addClass('hidden')
+    $('body').append(thankyouHtml)
   })
 }
 
