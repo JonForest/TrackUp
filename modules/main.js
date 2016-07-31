@@ -147,7 +147,7 @@ function readPhoto () {
     fileReader.onload = function (e) {
       var img = document.createElement("img")
       img.src = e.target.result
-      let canvas = makeThumbnail(img, 0.3)
+      let canvas = makeThumbnail(img, 0.5)
       $('#map').addClass('hidden')
       $('#buttons').addClass('hidden')
       $('body').append(textHtml)
