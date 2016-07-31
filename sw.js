@@ -19,13 +19,14 @@
 
 // Version 0.54
 
-importScripts('/cache-polyfill.js');
+importScripts('/TrackUp/cache-polyfill.js');
 
 self.addEventListener('install', function(e) {
   e.waitUntil(
     caches.open('trackup-cache').then(function(cache) {
       return cache.addAll([
-        '/'
+        '/TrackUp',
+        '/TrackUp/index.html'
       ]).then(function() {
         return self.skipWaiting();
       });
