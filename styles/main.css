@@ -39,6 +39,12 @@ body {
     display: inline;
 }
 
+.twitter-icon {
+    display: inline;
+    float: right;
+    clear: both;
+}
+
 #map {
     height: 80%;
 }
@@ -51,23 +57,22 @@ body {
 }
 
 .footer {
-    height:10%;
-    width:100%;
+    height: 10%;
+    width: 100%;
     background-color: #2e4469;
     padding: 5px 5px 5px 5px;
 }
 
-.btn{
-    height:50px;
+.btn {
+    height: 50px;
 }
 
-.btn-danger{
-    background-color:#ff3000 !important;
+.btn-danger {
+    background-color: #ff3000 !important;
 
-    border:2px solid #bc0b00 !important;
-    font-weight:bold !important;
+    border: 2px solid #bc0b00 !important;
+    font-weight: bold !important;
 }
-
 
 .fileUpload input.upload {
     position: absolute;
