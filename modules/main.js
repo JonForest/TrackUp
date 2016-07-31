@@ -5,7 +5,8 @@ import $ from 'jquery'
 import sampledata from './sampledata'
 import toDataUrl from './base64Image'
 import R from 'ramda'
-// import issueMarkers from './issue_markers'
+import issueMarkers from './issue_markers'
+import makeThumbnail from './make-thumbnail'
 
 
 var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -144,10 +145,14 @@ function readPhoto () {
   if (this.files && this.files[0]) {
     var fileReader = new FileReader()
     fileReader.onload = function (e) {
+      var img = document.createElement("img")
+      img.src = e.target.result
+      let canvas = makeThumbnail(img, 0.3)
       $('#map').addClass('hidden')
       $('#buttons').addClass('hidden')
       $('body').append(textHtml)
-      dataSet[0].Photo = e.target.result
+      // $('.header-icon').attr('src', canvas.toDataURL('image/jpeg'))
+      dataSet[0].Photo = canvas.toDataURL('image/jpeg')
     }
     fileReader.readAsDataURL(this.files[0])
   }
@@ -162,7 +167,7 @@ function captureLocation () {
 }
 
 function tellTheWorld () {
-  dataSet[0].Notes = $('#notes').text()
+  dataSet[0].Notes = $('#notes').val()
   if (!dataSet[0].Latitude || !dataSet[0].Longitude) return alert('Upload a file')
 
   $.ajax({
@@ -175,7 +180,6 @@ function tellTheWorld () {
   }).done(data => {
     $('#textcapture').addClass('hidden')
     $('body').append(thankyouHtml)
-    alert(data)
   }).fail(jqXHR => {
     $('#textcapture').addClass('hidden')
     $('body').append(thankyouHtml)
