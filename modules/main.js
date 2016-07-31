@@ -42,12 +42,12 @@ const mapHtml = `
 
 const textHtml = `
 <div class='row' id="textcapture">
-    <div class='col-lg-12'>
+    <div class='col-xs-12'>
         <h1>Describe the problem</h1>
         <textarea style="width:100%; height:300px;" id="notes"></textarea>
     </div>
-    <div class='col-lg-12'>
-        <div class='btn btn-block btn-success' id="send">Send</div>
+    <div class='col-xs-12'>
+        <div class='btn btn-block btn-success' id="send"><span class="glyphicon glyphicon-envelope"></span> Send</div>
     </div>
  </div>
 `
