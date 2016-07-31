@@ -1,0 +1,79 @@
+﻿@{
+    var xUser = Environment.UserName;
+}
+<!doctype html>
+<html>
+<head>
+    <title>@Page.Title</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+
+    <link type="image/x-ico" rel="icon" href="~/wwwroot/favicon.ico" />
+    <link type="image/x-icon" rel="shortcut icon" href="~/wwwroot/favicon.ico" />
+
+    <link href="~/wwwroot/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/wwwroot/css/dash.css" rel="stylesheet" />
+    <link href="~/wwwroot/css/features.css" rel="stylesheet" />
+
+    @RenderSection("HeadExtra", false)
+</head>
+<body>
+    <div id="wrapper" class="">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <div class="sidebar-brand" >
+                <a href="~/Views/Home/">TrackUP</a>
+            </div>
+            <ul class="sidebar-nav">
+                <li><a href="~/Views/Home">@*<i class="icon-home"></i>*@Dashboard</a></li>
+                @*<li><a href="~/Views/Home/Logging"><i class="icon-home"></i>Logging</a></li>*@
+                @*@if (WebSecurity.IsAuthenticated)
+                {
+                    <li>Hello, @WebSecurity.CurrentUserName</li>
+                }else
+                {
+                    @xUser
+                }*@
+            </ul>
+        </div>
+        <!-- Page content -->
+        <div id="page-content-wrapper">
+            @RenderBody()
+        </div>
+    </div>
+
+    <script src="~/wwwroot/lib/jquery/dist/jquery.js"></script>
+    <script src="~/wwwroot/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script>
+            $("#menu-toggle").click(function(e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("active");
+            });
+    </script>
+    <script>
+            // Set Current page as active in the navigation menu
+            var full_url = window.location.pathname;
+            if (full_url.charAt(full_url.length - 1) == '/') {
+                full_url = full_url.substring(0, full_url.length - 1);
+            }
+            var $daURL = full_url;
+            var url_array = full_url.split('/');
+            var $last_segment = url_array[url_array.length - 1];
+
+            $('#sidebar-wrapper ul li a').each(function () {
+                var $href = $(this).attr('href');
+                if ($daURL.toLowerCase().indexOf($href.toLowerCase()) >= 0 && ($href.toLowerCase() != "/views/home/" || $daURL.toLowerCase() == "/views/home/")) {
+                    $(this).parent().addClass('selected');
+                    return;
+                }
+            });
+
+            $('.footer .go-top').click(function () {
+                $('html, body').animate({ scrollTop: 0 }, 'slow');
+                return false;
+            });
+    </script>
+    @RenderSection("FooterExtra", false)
+</body>
+</html>

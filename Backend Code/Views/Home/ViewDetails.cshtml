@@ -1,0 +1,47 @@
+﻿@{
+    var photoId = UrlData[0].AsInt();
+
+    var db = Database.Open("DataDB");
+
+    var gallery = db.QuerySingle("SELECT * FROM GeoData WHERE ID = @0", photoId);
+    if (gallery == null)
+    {
+        Response.SetStatus(HttpStatusCode.NotFound);
+        return;
+    }
+
+    // Found a match - so show all its photos
+    var photos = db.Query("SELECT ID, Longitude, Latitude, Notes, PhotoLink FROM GeoData WHERE ID = @0", photoId).ToList();
+
+    Page.Title = "Photo - " + gallery.Notes;
+}
+<div class="row" style="margin-top: 5px;">
+    <div class="col-md-12">
+        <h1>Track Issue</h1>
+    </div>
+    <div class="col-md-4">
+        <h3>Raised at @gallery.DateTimeStamp</h3>
+    </div>
+
+    <div class="col-md-4">
+        <a class="btn btn-danger pull-right" href="~/Views/Home/Thankyou">Report to Tracks Maintenance Staff</a>
+    </div>
+
+    <div class="col-md-4">
+    </div>
+
+    <div class="col-md-12">
+        <ul class="thumbnails" data-role="listview">
+            @foreach (var photo in photos)
+            {
+                <li>
+                    <h2>Longitude = @photo.Longitude &amp; Latitude = @photo.Latitude </h2><br />
+                    <a href="~/wwwroot/Photos/@photo.PhotoLink" title="View @photo.Notes" style="width:100%; height:400px;">
+                        <img width="800px" height="600px" alt="thumbnail of Photo" src="~/wwwroot/Photos/@photo.PhotoLink" class="thumbnail-border" />
+                    </a><br />
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+

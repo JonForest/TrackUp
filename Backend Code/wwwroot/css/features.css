@@ -1,0 +1,50 @@
+﻿
+/* Grid Tables */
+    .greyHeadTable { background-color: #39a9e0;}
+    .table thead a {color: white; text-decoration: none;}
+
+/* Search Boxes */
+        #searchBox {
+            margin: 15px auto 0 auto;
+            /*width: 95%;*/
+            background-color: #f0f0f0;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+            -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        .searchinput {
+            margin: 0;
+            margin-right: 2px;
+            padding: 0;
+            border: 0;
+            float: left;
+            width: 85%;
+            height: 32px;
+            padding: 12px 0 0 10px;
+            background: none;
+            font-size: 16px;
+        }
+        .btnSearch {
+            padding: 0;
+            border: 0;
+            margin: 0;
+            line-height: 42px;
+            display: inline-block;
+            overflow: hidden;
+            width: 42px;
+            height: 42px;
+            background: url("Images/core-sprites-base.png") no-repeat top;
+            background-position: -78px -92px;
+        }
+
+    #searchBox input[type="text"], #searchBox input[type="text"]:focus, #searchBox input[type="text"]:hover { 
+        background: none; border: none; -webkit-box-shadow:none; -moz-box-shadow:none; box-shadow:none;}
+
+    #searchform:focus, #searchform:hover, #searchform:active{ 
+        border-color: #ec2125;
+        box-shadow: 0 1px 1px #ec2125 inset, 0 0 8px #ec2125;
+        outline: 0 none;}
+
+    textarea:focus, input[type="text"]:focus, input[type="search"]:focus {   
+        border-color: rgba(126, 239, 104, 0.8);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
+        outline: 0 none;}

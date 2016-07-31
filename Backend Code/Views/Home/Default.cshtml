@@ -1,0 +1,129 @@
+﻿@{
+    if (IsPost)
+    {
+        var xFilter = Request["filterX"];
+        if (xFilter != null)
+        {
+            Response.Redirect("~/Views/Home?find=" + xFilter);
+        }
+    }
+
+    var xCounter = 0;
+    var sql = "SELECT * FROM GeoData";
+
+    WebGrid grid = new WebGrid();
+    var db = Database.Open("DataDB");
+
+    var findPlots = Request["find"];
+    if (findPlots != null)
+    {
+        sql += " WHERE (Notes LIKE '%" + findPlots + "%')";
+    }
+
+    var exSQL = db.Query(sql);
+    xCounter = exSQL.Count();
+    grid = new WebGrid(exSQL);
+
+    Page.Title = "TrackUP - Dashboard";
+}
+
+<div class="row" style="margin-top: 5px;">
+    <div class="col-md-4">
+        <h1><a class="MainHead" href="~/Views/Home">Dashboard</a></h1>
+    </div>
+    <div class="col-md-4">
+        <form id="searchform" method="post">
+            <div id="searchBox">
+                <input type="text" class="searchinput" name="filterX" id="filterX" placeholder="Search Track Issues">
+                <input type="submit" id="searchsubmit" value="" class="btnSearch">
+            </div>
+        </form>
+    </div>
+    <div class="col-md-1" style="padding-top: 20px;">
+        <a class="btn btn-info pull-right" href="~/Views/Home?find=@string.Empty">Show All</a>
+    </div>
+    <div class="col-md-3" style="margin-top: 20px;">
+        @*@if (findPlots != null)
+        {*@
+            <h4>@xCounter found</h4>
+        @*}*@
+    </div>
+</div>
+
+    <div class="row" style="margin-top: 15px;">
+        <div id="PeopleFind" class="col-md-10 col-md-offset-1">
+            @grid.Table(
+                    tableStyle: "table table-striped",
+                    headerStyle: "greyHeadTable",
+                    alternatingRowStyle: "alternate",
+                    columns: grid.Columns(
+                        grid.Column(columnName: "ID", header: "ID"),
+                        grid.Column(columnName: "Emergency", header: "Emergency"),
+                        grid.Column(columnName: "DateTimeStamp", header: "DateTimeStamp", format: (item) => (item.DateTimeStamp == null ? String.Empty : string.Format("{0:dd MMM yyyy}", item.DateTimeStamp))),
+                        grid.Column(columnName: "Latitude", header: "Latitude"),
+                        grid.Column(columnName: "Longitude", header: "Longitude"),//PhotoLength
+                        grid.Column(columnName: "Notes", header: "Notes"),
+                        grid.Column(columnName: "PhotoLink", header: "PhotoLink"),
+                        grid.Column(columnName: "PhotoType", header: "PhotoType"),
+                        grid.Column(columnName: "PhotoLength", header: "PhotoLength")
+                    //,grid.Column(columnName: "Photo", header: "Photo")
+                    )
+                )
+            <div class="pull-right">
+                @grid.PagerList(mode: WebGridPagerModes.NextPrevious | WebGridPagerModes.Numeric | WebGridPagerModes.FirstLast, numericLinksCount: 5, paginationStyle: "pagination", previousText: "«", nextText: "»", firstText: "First", lastText: "Last")
+            </div>
+        </div>
+    </div>
+
+
+@section FooterExtra{
+    <script>
+        $( document ).ready(function() {
+          $( "#filterX" ).focus();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.boxBody tbody tr').on('mouseenter mouseleave', function(){
+                $(this).toggleClass('clickable');
+            }).on('click', function(){
+                location.href = '?c=' + $(this).find('td span:first').text();
+            });
+
+            //Clickable Rows
+            $('#PeopleFind tbody tr').on('mouseenter mouseleave', function(){
+                $(this).toggleClass('clickable');
+            }).on('click', function(){
+                location.href = 'Home/ViewDetails/' + $(this).find('td:first').text();
+            });
+        });
+    </script>
+    <style>
+        .clickable, .table-striped tbody > tr.clickable:nth-child(odd) td {
+            cursor: pointer;
+            background-color: #ffff99;
+        }
+
+        h1 a.MainHead, h1 a.MainHead:hover {
+            text-decoration: none;
+            font-weight: 300;
+            color: rgb(51, 51, 51);
+        }
+
+        .statsArea table {
+            margin: 0 auto;
+        }
+
+            .statsArea table tr {
+                text-align: left;
+            }
+
+        .statsArea span {
+            color: #f00;
+        }
+
+        td.tNumber {
+            text-align: right;
+        }
+    </style>
+}
