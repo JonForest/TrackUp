@@ -22,8 +22,8 @@ const dataSet = R.clone(sampledata)
 const mapHtml = `
 <nav class="header">
     <img class="header-icon" src="images/touch/picker_128.png" height="40px" width="40px"></img>
-    <h1 class="page-title">Track<span style="color:#f9a025">UP</span>
-    </h1>
+    <h1 class="page-title">Track<span style="color:#f9a025">UP</span></h1>
+    <a href="http://twitter.com/trackupproject"><img class="twitter-icon" src="images/touch/twitter-128.png" height="35px" width="35px"></img></a>
 </nav>
 <div id="map"></div>
 
