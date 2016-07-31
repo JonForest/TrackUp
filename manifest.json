@@ -28,7 +28,7 @@
         "type": "image/png",
         "sizes": "512x512"
       }],
-  "start_url": "/TrackUp",
+  "start_url": "/TrackUp/index.html",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#4074cd",
