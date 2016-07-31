@@ -2,19 +2,21 @@ const FREQUENCY = 10000
 let map
 let issuePoints = []
 
-var pinColor = "FE7569";
-var pinImage = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
-  new google.maps.Size(21, 34),
-  new google.maps.Point(0,0),
-  new google.maps.Point(10, 34));
-var pinShadow = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_shadow",
-  new google.maps.Size(40, 37),
-  new google.maps.Point(0, 0),
-  new google.maps.Point(12, 35));
-
+const pinColor  = "FE7569";
+let pinImage
+let pinShadow
 
 module.exports = function (mapArg) {
   map = mapArg
+
+  pinImage = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+    new google.maps.Size(21, 34),
+    new google.maps.Point(0,0),
+    new google.maps.Point(10, 34));
+  pinShadow = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+    new google.maps.Size(40, 37),
+    new google.maps.Point(0, 0),
+    new google.maps.Point(12, 35));
   setInterval(listen, FREQUENCY)
 }
 
