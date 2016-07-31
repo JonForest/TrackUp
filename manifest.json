@@ -31,6 +31,6 @@
   "start_url": "/TrackUp/index.html",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#4074cd",
-  "theme_color": "#4074cd"
+  "background_color": "#2e4469",
+  "theme_color": "#2e4469"
 }

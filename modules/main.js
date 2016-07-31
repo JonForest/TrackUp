@@ -22,7 +22,8 @@ const dataSet = R.clone(sampledata)
 const mapHtml = `
 <nav class="header">
     <img class="header-icon" src="images/touch/picker_128.png" height="40px" width="40px"></img>
-    <h1 class="page-title">TrackUP</h1>
+    <h1 class="page-title">Track<span style="color:#f9a025">UP</span>
+    </h1>
 </nav>
 <div id="map"></div>
 
@@ -35,7 +36,7 @@ const mapHtml = `
       </span>
     </div>
     <div class="col-xs-6">
-      <button class="btn btn-block btn-default"><span class="glyphicon glyphicon-warning-sign"></span> Emergency</button>
+      <button class="btn btn-block btn-danger"><span class="glyphicon glyphicon-warning-sign"></span> Emergency</button>
     </div>
   </div>
 </div>
